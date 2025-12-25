@@ -4,60 +4,44 @@ import Layout from "../layouts/Layout.astro";
 // Resource categories - easy to edit and expand
 const resources = [
   {
+    category: "Projects",
+    description: "Notable research projects in AI agents and simulation",
+    items: [
+      {
+        title: "Generative Agents",
+        url: "https://github.com/joonspk-research/generative_agents",
+        description: "Interactive simulacra of human behavior - computational agents that simulate believable human behaviors in a virtual town",
+      },
+      {
+        title: "Agent-Kernel",
+        url: "https://github.com/ZJU-LLMs/Agent-Kernel",
+        description: "A microkernel framework for large-scale social simulation using multi-agent systems powered by LLMs",
+      },
+      {
+        title: "IBSEN",
+        url: "https://github.com/OpenDFM/ibsen",
+        description: "Collaborative AI drama framework where agents act towards plot objectives while expressing personality (ACL 2024)",
+      },
+    ],
+  },
+  {
     category: "Learning",
-    description: "Educational resources I find valuable",
+    description: "Courses and tutorials I find valuable",
     items: [
       {
-        title: "3Blue1Brown",
-        url: "https://www.3blue1brown.com/",
-        description: "Beautiful visual explanations of mathematical concepts",
+        title: "CS 222: AI Agents and Simulations",
+        url: "https://joonspk-research.github.io/cs222-fall24/",
+        description: "Stanford course on creating simulations of human societies using computational methods, by Joon Sung Park",
       },
       {
-        title: "MIT OpenCourseWare",
-        url: "https://ocw.mit.edu/",
-        description: "Free lecture notes, exams, and videos from MIT",
+        title: "Neural Networks: Zero to Hero",
+        url: "https://www.youtube.com/playlist?list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ",
+        description: "Andrej Karpathy's course on building neural networks from scratch, from backpropagation to GPT",
       },
       {
-        title: "Khan Academy",
-        url: "https://www.khanacademy.org/",
-        description: "Free courses on math, science, and more",
-      },
-    ],
-  },
-  {
-    category: "Tools",
-    description: "Software and tools I use regularly",
-    items: [
-      {
-        title: "Overleaf",
-        url: "https://www.overleaf.com/",
-        description: "Online LaTeX editor for academic writing",
-      },
-      {
-        title: "Desmos",
-        url: "https://www.desmos.com/",
-        description: "Beautiful, free online graphing calculator",
-      },
-      {
-        title: "GitHub",
-        url: "https://github.com/",
-        description: "Code hosting and collaboration platform",
-      },
-    ],
-  },
-  {
-    category: "Reading",
-    description: "Blogs and publications I follow",
-    items: [
-      {
-        title: "Distill",
-        url: "https://distill.pub/",
-        description: "Clear explanations of machine learning research",
-      },
-      {
-        title: "Quanta Magazine",
-        url: "https://www.quantamagazine.org/",
-        description: "Illuminating science and mathematics",
+        title: "Planning in the Era of LLMs",
+        url: "https://neurips.cc/virtual/2025/loc/san-diego/109596",
+        description: "NeurIPS 2025 tutorial on how classical planning principles can strengthen LLM-based systems",
       },
     ],
   },
