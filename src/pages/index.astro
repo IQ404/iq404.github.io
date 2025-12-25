@@ -22,15 +22,31 @@ import Layout from "../layouts/Layout.astro";
     <section class="about">
       <h2>About Me</h2>
       <div class="about-content">
-        <p>
-          I'm currently pursuing my PhD, focusing on [Your Research Area].
-          Previously, I completed my Master's degree where I worked on various
-          projects spanning [Your Interests].
-        </p>
-        <p>
-          When I'm not buried in research papers, you'll find me writing code,
-          exploring new mathematical concepts, or documenting my learnings on this site.
-        </p>
+        <div class="about-current">
+          <p class="status">PhD Student in Computer Science</p>
+          <div class="interests">
+            <span class="interests-label">Research Interests:</span>
+            <ul>
+              <li>LLM-based AI Agents: Simulation & Planning</li>
+              <li>Inference, Decoding, Verification & Search algorithms for enhancing Language Models' reasoning capabilities</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="education">
+          <h3>Education</h3>
+          <ul class="education-list">
+            <li>
+              <a href="https://www.ncl.ac.uk/postgraduate/degrees/5152f/" target="_blank" rel="noopener">MSc Computer Game Engineering</a>, Newcastle University
+            </li>
+            <li class="strikethrough">
+              Bachelor of Science and Bachelor of Advanced Studies (Advanced) in Mathematics and Statistics, University of Sydney
+            </li>
+            <li>
+              BSc Physics, UCL
+            </li>
+          </ul>
+        </div>
       </div>
     </section>
 
@@ -121,10 +137,77 @@ import Layout from "../layouts/Layout.astro";
     max-width: 65ch;
   }
 
-  .about-content p {
+  .about-current {
+    margin-bottom: 2rem;
+  }
+
+  .about-current .status {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
     margin-bottom: 1rem;
+  }
+
+  .interests {
     color: var(--text-secondary);
-    line-height: 1.8;
+  }
+
+  .interests-label {
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  .interests ul {
+    margin-top: 0.5rem;
+    padding-left: 1.25rem;
+    list-style-type: disc;
+  }
+
+  .interests li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+
+  .education h3 {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+  }
+
+  .education-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .education-list li {
+    position: relative;
+    padding-left: 1.25rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .education-list li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  .education-list a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--transition);
+  }
+
+  .education-list a:hover {
+    border-bottom-color: var(--accent);
+  }
+
+  .strikethrough {
+    text-decoration: line-through;
+    color: var(--text-muted) !important;
   }
 
   .highlights h2 {
