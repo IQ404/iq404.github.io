@@ -7,7 +7,7 @@ import Layout from "../layouts/Layout.astro";
     <section class="hero fade-in">
       <div class="hero-content">
         <div class="hero-avatar">
-          <div class="avatar-placeholder">IQ</div>
+          <img src="/avatar.jpg" alt="Avatar" class="avatar-image" />
         </div>
         <h1 class="hero-title">Hello, I'm <span class="highlight">IQ404</span></h1>
         <p class="hero-subtitle">
@@ -79,18 +79,14 @@ import Layout from "../layouts/Layout.astro";
     margin-bottom: 2rem;
   }
 
-  .avatar-placeholder {
-    width: 120px;
-    height: 120px;
+  .avatar-image {
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent), #8b5cf6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: white;
+    object-fit: cover;
     margin: 0 auto;
+    display: block;
+    border: 3px solid var(--accent);
     box-shadow: 0 0 40px rgba(59, 130, 246, 0.3);
   }
 
