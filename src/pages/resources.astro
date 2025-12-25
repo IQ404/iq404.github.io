@@ -1,0 +1,218 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+// Resource categories - easy to edit and expand
+const resources = [
+  {
+    category: "Learning",
+    description: "Educational resources I find valuable",
+    items: [
+      {
+        title: "3Blue1Brown",
+        url: "https://www.3blue1brown.com/",
+        description: "Beautiful visual explanations of mathematical concepts",
+      },
+      {
+        title: "MIT OpenCourseWare",
+        url: "https://ocw.mit.edu/",
+        description: "Free lecture notes, exams, and videos from MIT",
+      },
+      {
+        title: "Khan Academy",
+        url: "https://www.khanacademy.org/",
+        description: "Free courses on math, science, and more",
+      },
+    ],
+  },
+  {
+    category: "Tools",
+    description: "Software and tools I use regularly",
+    items: [
+      {
+        title: "Overleaf",
+        url: "https://www.overleaf.com/",
+        description: "Online LaTeX editor for academic writing",
+      },
+      {
+        title: "Desmos",
+        url: "https://www.desmos.com/",
+        description: "Beautiful, free online graphing calculator",
+      },
+      {
+        title: "GitHub",
+        url: "https://github.com/",
+        description: "Code hosting and collaboration platform",
+      },
+    ],
+  },
+  {
+    category: "Reading",
+    description: "Blogs and publications I follow",
+    items: [
+      {
+        title: "Distill",
+        url: "https://distill.pub/",
+        description: "Clear explanations of machine learning research",
+      },
+      {
+        title: "Quanta Magazine",
+        url: "https://www.quantamagazine.org/",
+        description: "Illuminating science and mathematics",
+      },
+    ],
+  },
+];
+---
+
+<Layout title="Resources - IQ404" description="Curated links and tools I find valuable">
+  <div class="container">
+    <header class="page-header fade-in">
+      <h1>Resources</h1>
+      <p>A curated collection of links, tools, and materials I find valuable.</p>
+    </header>
+
+    <div class="resources-container">
+      {resources.map((section) => (
+        <section class="resource-section">
+          <div class="section-header">
+            <h2>{section.category}</h2>
+            <p>{section.description}</p>
+          </div>
+          <div class="resource-grid">
+            {section.items.map((item) => (
+              <a href={item.url} target="_blank" rel="noopener noreferrer" class="resource-card">
+                <h3>
+                  {item.title}
+                  <span class="external-icon">&#8599;</span>
+                </h3>
+                <p>{item.description}</p>
+              </a>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+
+    <section class="suggest-section">
+      <h2>Have a suggestion?</h2>
+      <p>
+        If you know of a resource that you think should be here, feel free to reach out!
+      </p>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .page-header {
+    margin-bottom: 3rem;
+  }
+
+  .page-header h1 {
+    margin-bottom: 0.5rem;
+  }
+
+  .page-header p {
+    font-size: 1.125rem;
+    color: var(--text-muted);
+  }
+
+  .resources-container {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .resource-section {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 3rem;
+  }
+
+  .resource-section:last-child {
+    border-bottom: none;
+  }
+
+  .section-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .section-header h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .section-header p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+
+  .resource-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+
+  .resource-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    text-decoration: none;
+    transition: all var(--transition);
+  }
+
+  .resource-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .resource-card h3 {
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .external-icon {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    transition: color var(--transition);
+  }
+
+  .resource-card:hover .external-icon {
+    color: var(--accent);
+  }
+
+  .resource-card p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .suggest-section {
+    margin-top: 2rem;
+    padding: 2rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    text-align: center;
+  }
+
+  .suggest-section h2 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .suggest-section p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 640px) {
+    .resource-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

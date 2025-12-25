@@ -1,0 +1,211 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+const projects = await getCollection("projects");
+const sortedProjects = projects.sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+const featuredProjects = sortedProjects.filter((p) => p.data.featured);
+const otherProjects = sortedProjects.filter((p) => !p.data.featured);
+
+const typeLabels: Record<string, string> = {
+  research: "Research",
+  publication: "Publication",
+  "side-project": "Side Project",
+};
+
+const typeColors: Record<string, string> = {
+  research: "#3b82f6",
+  publication: "#22c55e",
+  "side-project": "#8b5cf6",
+};
+---
+
+<Layout title="Projects - IQ404" description="Research work, publications, and side projects">
+  <div class="container">
+    <header class="page-header fade-in">
+      <h1>Projects</h1>
+      <p>Research work, publications, and side projects I've worked on.</p>
+    </header>
+
+    {featuredProjects.length > 0 && (
+      <section class="featured-section">
+        <h2>Featured</h2>
+        <div class="projects-grid">
+          {featuredProjects.map((project) => (
+            <a href={`/projects/${project.id}`} class="project-card featured">
+              <div class="project-type" style={`--type-color: ${typeColors[project.data.type]}`}>
+                {typeLabels[project.data.type]}
+              </div>
+              <h3>{project.data.title}</h3>
+              <p>{project.data.description}</p>
+              <div class="project-meta">
+                <time datetime={project.data.date.toISOString()}>
+                  {project.data.date.toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "short",
+                  })}
+                </time>
+                {project.data.tags && (
+                  <div class="tags">
+                    {project.data.tags.slice(0, 3).map((tag) => (
+                      <span class="tag">{tag}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <section class="all-projects">
+      <h2>All Projects</h2>
+      <div class="projects-grid">
+        {otherProjects.map((project) => (
+          <a href={`/projects/${project.id}`} class="project-card">
+            <div class="project-type" style={`--type-color: ${typeColors[project.data.type]}`}>
+              {typeLabels[project.data.type]}
+            </div>
+            <h3>{project.data.title}</h3>
+            <p>{project.data.description}</p>
+            <div class="project-meta">
+              <time datetime={project.data.date.toISOString()}>
+                {project.data.date.toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "short",
+                })}
+              </time>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      {sortedProjects.length === 0 && (
+        <p class="empty-state">No projects yet. Check back soon!</p>
+      )}
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .page-header {
+    margin-bottom: 3rem;
+  }
+
+  .page-header h1 {
+    margin-bottom: 0.5rem;
+  }
+
+  .page-header p {
+    font-size: 1.125rem;
+    color: var(--text-muted);
+  }
+
+  .featured-section,
+  .all-projects {
+    margin-bottom: 3rem;
+  }
+
+  .featured-section h2,
+  .all-projects h2 {
+    font-size: 1.25rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    text-decoration: none;
+    transition: all var(--transition);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .project-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .project-card.featured {
+    border-color: var(--accent);
+    background: linear-gradient(135deg, var(--bg-secondary), var(--accent-subtle));
+  }
+
+  .project-type {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--type-color, var(--accent));
+    margin-bottom: 0.75rem;
+  }
+
+  .project-card h3 {
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .project-card p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    flex-grow: 1;
+    margin-bottom: 1rem;
+  }
+
+  .project-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .project-meta time {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+
+  .tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+  }
+
+  .empty-state {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 3rem;
+  }
+
+  @media (max-width: 640px) {
+    .projects-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

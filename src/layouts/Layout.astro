@@ -1,0 +1,205 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Personal website" } = Astro.props;
+const currentPath = Astro.url.pathname;
+
+const navItems = [
+  { href: "/", label: "Home" },
+  { href: "/projects", label: "Projects" },
+  { href: "/blog", label: "Blog" },
+  { href: "/resources", label: "Resources" },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="nav-container">
+        <a href="/" class="nav-logo">IQ404</a>
+        <ul class="nav-links">
+          {navItems.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class:list={["nav-link", { active: currentPath === item.href || (item.href !== "/" && currentPath.startsWith(item.href)) }]}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <button class="nav-toggle" aria-label="Toggle navigation" id="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </nav>
+
+    <main class="main">
+      <slot />
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; {new Date().getFullYear()} IQ404. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      const toggle = document.getElementById('nav-toggle');
+      const navLinks = document.querySelector('.nav-links');
+
+      toggle?.addEventListener('click', () => {
+        navLinks?.classList.toggle('open');
+        toggle.classList.toggle('open');
+      });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  @import "../styles/global.css";
+</style>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10, 10, 11, 0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+  }
+
+  .nav-logo:hover {
+    color: var(--accent);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 0.5rem;
+    list-style: none;
+  }
+
+  .nav-link {
+    display: block;
+    padding: 0.5rem 1rem;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: var(--radius-md);
+    transition: all var(--transition);
+  }
+
+  .nav-link:hover {
+    color: var(--text-primary);
+    background: var(--bg-hover);
+  }
+
+  .nav-link.active {
+    color: var(--text-primary);
+    background: var(--bg-tertiary);
+  }
+
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    padding: 0.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .nav-toggle span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--text-primary);
+    transition: all var(--transition);
+  }
+
+  .nav-toggle.open span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  .nav-toggle.open span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .nav-toggle.open span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+
+  .main {
+    min-height: calc(100vh - 64px - 80px);
+    padding: 3rem 0;
+  }
+
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 0;
+    text-align: center;
+  }
+
+  .footer p {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 768px) {
+    .nav-links {
+      position: absolute;
+      top: 64px;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      background: var(--bg-primary);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem;
+      gap: 0.25rem;
+      display: none;
+    }
+
+    .nav-links.open {
+      display: flex;
+    }
+
+    .nav-toggle {
+      display: flex;
+    }
+  }
+</style>
