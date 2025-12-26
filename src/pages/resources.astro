@@ -11,16 +11,19 @@ const resources = [
         title: "Generative Agents",
         url: "https://github.com/joonspk-research/generative_agents",
         description: "Interactive simulacra of human behavior - computational agents that simulate believable human behaviors in a virtual town",
+        tags: ["agents"],
       },
       {
         title: "Agent-Kernel",
         url: "https://github.com/ZJU-LLMs/Agent-Kernel",
         description: "A microkernel framework for large-scale social simulation using multi-agent systems powered by LLMs",
+        tags: ["agents"],
       },
       {
         title: "IBSEN",
         url: "https://github.com/OpenDFM/ibsen",
         description: "Collaborative AI drama framework where agents act towards plot objectives while expressing personality (ACL 2024)",
+        tags: ["agents"],
       },
     ],
   },
@@ -32,20 +35,28 @@ const resources = [
         title: "CS 222: AI Agents and Simulations",
         url: "https://joonspk-research.github.io/cs222-fall24/",
         description: "Stanford course on creating simulations of human societies using computational methods, by Joon Sung Park",
+        tags: ["agents"],
       },
       {
         title: "Neural Networks: Zero to Hero",
         url: "https://www.youtube.com/playlist?list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ",
         description: "Andrej Karpathy's course on building neural networks from scratch, from backpropagation to GPT",
+        tags: ["neural networks"],
       },
       {
         title: "Planning in the Era of LLMs",
         url: "https://neurips.cc/virtual/2025/loc/san-diego/109596",
         description: "NeurIPS 2025 tutorial on how classical planning principles can strengthen LLM-based systems",
+        tags: ["planning"],
       },
     ],
   },
 ];
+
+// Get all unique tags across all resources
+const allTags = [...new Set(resources.flatMap((section) =>
+  section.items.flatMap((item) => item.tags || [])
+))];
 ---
 
 <Layout title="Resources - IQ404" description="Curated links and tools I find valuable">
@@ -54,6 +65,18 @@ const resources = [
       <h1>Resources</h1>
       <p>A curated collection of links, tools, and materials I find valuable.</p>
     </header>
+
+    {allTags.length > 0 && (
+      <div class="tags-filter">
+        <span class="filter-label">Filter by tag:</span>
+        <div class="tags">
+          <button class="tag active" data-tag="all">All</button>
+          {allTags.map((tag) => (
+            <button class="tag" data-tag={tag}>{tag}</button>
+          ))}
+        </div>
+      </div>
+    )}
 
     <div class="resources-container">
       {resources.map((section) => (
@@ -64,12 +87,19 @@ const resources = [
           </div>
           <div class="resource-grid">
             {section.items.map((item) => (
-              <a href={item.url} target="_blank" rel="noopener noreferrer" class="resource-card">
+              <a href={item.url} target="_blank" rel="noopener noreferrer" class="resource-card" data-tags={JSON.stringify(item.tags || [])}>
                 <h3>
                   {item.title}
                   <span class="external-icon">&#8599;</span>
                 </h3>
                 <p>{item.description}</p>
+                {item.tags && (
+                  <div class="resource-tags">
+                    {item.tags.map((tag) => (
+                      <span class="resource-tag">{tag}</span>
+                    ))}
+                  </div>
+                )}
               </a>
             ))}
           </div>
@@ -80,9 +110,46 @@ const resources = [
   </div>
 </Layout>
 
+<script>
+  const tagButtons = document.querySelectorAll('.tag');
+  const resourceCards = document.querySelectorAll('.resource-card');
+  const resourceSections = document.querySelectorAll('.resource-section');
+
+  tagButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const selectedTag = button.getAttribute('data-tag');
+
+      // Update active state
+      tagButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+
+      // Filter resources
+      resourceCards.forEach(card => {
+        const cardTags = JSON.parse(card.getAttribute('data-tags') || '[]');
+
+        if (selectedTag === 'all' || cardTags.includes(selectedTag)) {
+          (card as HTMLElement).style.display = 'block';
+        } else {
+          (card as HTMLElement).style.display = 'none';
+        }
+      });
+
+      // Hide sections with no visible cards
+      resourceSections.forEach(section => {
+        const visibleCards = section.querySelectorAll('.resource-card:not([style*="display: none"])');
+        if (visibleCards.length === 0) {
+          (section as HTMLElement).style.display = 'none';
+        } else {
+          (section as HTMLElement).style.display = 'block';
+        }
+      });
+    });
+  });
+</script>
+
 <style>
   .page-header {
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
   }
 
   .page-header h1 {
@@ -92,6 +159,47 @@ const resources = [
   .page-header p {
     font-size: 1.125rem;
     color: var(--text-muted);
+  }
+
+  .tags-filter {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .filter-label {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-right: 1rem;
+  }
+
+  .tags {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+  }
+
+  .tags .tag {
+    font-size: 0.8rem;
+    padding: 0.375rem 0.875rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: 9999px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition);
+  }
+
+  .tags .tag:hover {
+    border-color: var(--accent);
+    color: var(--text-primary);
+  }
+
+  .tags .tag.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
   }
 
   .resources-container {
@@ -167,6 +275,21 @@ const resources = [
     font-size: 0.875rem;
     color: var(--text-secondary);
     line-height: 1.5;
+  }
+
+  .resource-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.75rem;
+  }
+
+  .resource-tag {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.5rem;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
   }
 
   @media (max-width: 640px) {
