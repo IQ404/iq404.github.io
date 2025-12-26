@@ -3,7 +3,8 @@
     "allow": [
       "WebFetch(domain:github.com)",
       "WebFetch(domain:www.youtube.com)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(git diff:*)"
     ]
   }
 }
