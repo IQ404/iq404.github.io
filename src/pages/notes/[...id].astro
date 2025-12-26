@@ -3,7 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import { getCollection, render } from "astro:content";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog");
+  const posts = await getCollection("notes");
   return posts.map((post) => ({
     params: { id: post.id },
     props: { post },
@@ -16,9 +16,9 @@ const { Content } = await render(post);
 
 <Layout title={`${post.data.title} - IQ404`} description={post.data.description}>
   <div class="container">
-    <article class="blog-article">
+    <article class="notes-article">
       <header class="article-header fade-in">
-        <a href="/blog" class="back-link">&larr; Back to Blog</a>
+        <a href="/notes" class="back-link">&larr; Back to Notes</a>
         <h1>{post.data.title}</h1>
         <p class="description">{post.data.description}</p>
         <div class="meta">
@@ -47,7 +47,7 @@ const { Content } = await render(post);
 </Layout>
 
 <style>
-  .blog-article {
+  .notes-article {
     max-width: 800px;
     margin: 0 auto;
   }
