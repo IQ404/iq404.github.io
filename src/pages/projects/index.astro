@@ -8,7 +8,7 @@ const sortedProjects = projects.sort(
 );
 
 const publications = sortedProjects.filter((p) => p.data.type === "publication");
-const softwareProjects = sortedProjects.filter((p) => p.data.type === "research" || p.data.type === "side-project");
+const softwareProjects = sortedProjects.filter((p) => p.data.type === "software-project");
 
 // Get all unique tags
 const allTags = [...new Set(sortedProjects.flatMap((project) => project.data.tags || []))];
@@ -67,7 +67,7 @@ const allTags = [...new Set(sortedProjects.flatMap((project) => project.data.tag
       <h2>Software Projects</h2>
       <div class="projects-grid">
         {softwareProjects.map((project) => (
-          <a href={`/projects/${project.id}`} class="project-card" data-tags={JSON.stringify(project.data.tags || [])}>
+          <a href={project.data.github || project.data.link || `/projects/${project.id}`} class="project-card" data-tags={JSON.stringify(project.data.tags || [])} target={project.data.github || project.data.link ? "_blank" : undefined} rel={project.data.github || project.data.link ? "noopener noreferrer" : undefined}>
             <h3>{project.data.title}</h3>
             <p>{project.data.description}</p>
             <div class="project-meta">
