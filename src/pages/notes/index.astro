@@ -33,7 +33,7 @@ const allTags = [...new Set(posts.flatMap((post) => post.data.tags || []))];
     <div class="posts-list">
       {sortedPosts.map((post) => (
         <article class="post-card" data-tags={JSON.stringify(post.data.tags || [])}>
-          <a href={`/notes/${post.id}`} class="post-link">
+          <a href={post.data.link || `/notes/${post.id}`} class="post-link" target={post.data.link ? "_blank" : undefined} rel={post.data.link ? "noopener noreferrer" : undefined}>
             <div class="post-date">
               <time datetime={post.data.date.toISOString()}>
                 {post.data.date.toLocaleDateString("en-US", {
