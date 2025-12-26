@@ -7,8 +7,8 @@ const sortedProjects = projects.sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
 
-const featuredProjects = sortedProjects.filter((p) => p.data.featured);
-const otherProjects = sortedProjects.filter((p) => !p.data.featured);
+const publications = sortedProjects.filter((p) => p.data.type === "publication");
+const softwareProjects = sortedProjects.filter((p) => p.data.type === "research" || p.data.type === "side-project");
 
 const typeLabels: Record<string, string> = {
   research: "Research",
@@ -30,42 +30,40 @@ const typeColors: Record<string, string> = {
       <p>Research work, publications, and side projects I've worked on.</p>
     </header>
 
-    {featuredProjects.length > 0 && (
-      <section class="featured-section">
-        <h2>Featured</h2>
-        <div class="projects-grid">
-          {featuredProjects.map((project) => (
-            <a href={`/projects/${project.id}`} class="project-card featured">
-              <div class="project-type" style={`--type-color: ${typeColors[project.data.type]}`}>
-                {typeLabels[project.data.type]}
-              </div>
-              <h3>{project.data.title}</h3>
-              <p>{project.data.description}</p>
-              <div class="project-meta">
-                <time datetime={project.data.date.toISOString()}>
-                  {project.data.date.toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "short",
-                  })}
-                </time>
-                {project.data.tags && (
-                  <div class="tags">
-                    {project.data.tags.slice(0, 3).map((tag) => (
-                      <span class="tag">{tag}</span>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </a>
-          ))}
-        </div>
-      </section>
-    )}
-
-    <section class="all-projects">
-      <h2>All Projects</h2>
+    <section class="publications-section">
+      <h2>Publications</h2>
       <div class="projects-grid">
-        {otherProjects.map((project) => (
+        {publications.map((project) => (
+          <a href={`/projects/${project.id}`} class="project-card">
+            <h3>{project.data.title}</h3>
+            <p>{project.data.description}</p>
+            <div class="project-meta">
+              <time datetime={project.data.date.toISOString()}>
+                {project.data.date.toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "short",
+                })}
+              </time>
+              {project.data.tags && (
+                <div class="tags">
+                  {project.data.tags.slice(0, 3).map((tag) => (
+                    <span class="tag">{tag}</span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </a>
+        ))}
+      </div>
+      {publications.length === 0 && (
+        <p class="empty-state">No publications yet. Check back soon!</p>
+      )}
+    </section>
+
+    <section class="software-section">
+      <h2>Software Projects</h2>
+      <div class="projects-grid">
+        {softwareProjects.map((project) => (
           <a href={`/projects/${project.id}`} class="project-card">
             <div class="project-type" style={`--type-color: ${typeColors[project.data.type]}`}>
               {typeLabels[project.data.type]}
@@ -79,13 +77,19 @@ const typeColors: Record<string, string> = {
                   month: "short",
                 })}
               </time>
+              {project.data.tags && (
+                <div class="tags">
+                  {project.data.tags.slice(0, 3).map((tag) => (
+                    <span class="tag">{tag}</span>
+                  ))}
+                </div>
+              )}
             </div>
           </a>
         ))}
       </div>
-
-      {sortedProjects.length === 0 && (
-        <p class="empty-state">No projects yet. Check back soon!</p>
+      {softwareProjects.length === 0 && (
+        <p class="empty-state">No software projects yet. Check back soon!</p>
       )}
     </section>
   </div>
@@ -105,13 +109,13 @@ const typeColors: Record<string, string> = {
     color: var(--text-muted);
   }
 
-  .featured-section,
-  .all-projects {
+  .publications-section,
+  .software-section {
     margin-bottom: 3rem;
   }
 
-  .featured-section h2,
-  .all-projects h2 {
+  .publications-section h2,
+  .software-section h2 {
     font-size: 1.25rem;
     color: var(--text-muted);
     margin-bottom: 1.5rem;
@@ -140,10 +144,6 @@ const typeColors: Record<string, string> = {
     border-color: var(--accent);
     transform: translateY(-4px);
     box-shadow: var(--shadow-lg);
-  }
-
-  .project-card.featured {
-    background: linear-gradient(135deg, var(--bg-secondary), var(--accent-subtle));
   }
 
   .project-type {
