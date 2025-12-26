@@ -4,7 +4,8 @@
       "WebFetch(domain:github.com)",
       "WebFetch(domain:www.youtube.com)",
       "Bash(cat:*)",
-      "Bash(git diff:*)"
+      "Bash(git diff:*)",
+      "Bash(tree:*)"
     ]
   }
 }
