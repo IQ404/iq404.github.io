@@ -5,7 +5,8 @@
       "WebFetch(domain:www.youtube.com)",
       "Bash(cat:*)",
       "Bash(git diff:*)",
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "Bash(git show:*)"
     ]
   }
 }
