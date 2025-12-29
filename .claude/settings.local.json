@@ -6,7 +6,8 @@
       "Bash(cat:*)",
       "Bash(git diff:*)",
       "Bash(tree:*)",
-      "Bash(git show:*)"
+      "Bash(git show:*)",
+      "Bash(find:*)"
     ]
   }
 }
