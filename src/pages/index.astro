@@ -22,11 +22,8 @@ import Layout from "../layouts/Layout.astro";
         <div class="about-current">
           <p class="status">Current PhD Student in Computer Science</p>
           <div class="interests">
-            <span class="interests-label">Research Interests:</span>
-            <ul>
-              <li>LLM-based AI Agents: Simulation & Planning</li>
-              <li>Inference, Decoding, Verification & Search algorithms for enhancing Language Models' reasoning capabilities</li>
-            </ul>
+            <p>My recent works involves Inference, Decoding, Verification & Search algorithms for enhancing Language Models' reasoning capabilities.</p>
+            <p>I am interested in LLM-based AI Agents: Simulation & Planning.</p>
           </div>
         </div>
 
@@ -146,20 +143,13 @@ import Layout from "../layouts/Layout.astro";
     color: var(--text-secondary);
   }
 
-  .interests-label {
-    font-weight: 500;
-    color: var(--text-primary);
-  }
-
-  .interests ul {
-    margin-top: 0.5rem;
-    padding-left: 1.25rem;
-    list-style-type: disc;
-  }
-
-  .interests li {
+  .interests p {
     margin-bottom: 0.5rem;
     line-height: 1.6;
+  }
+
+  .interests p:last-child {
+    margin-bottom: 0;
   }
 
   .education h3 {
