@@ -8,7 +8,9 @@
       "Bash(tree:*)",
       "Bash(git show:*)",
       "Bash(find:*)",
-      "Bash(wc:*)"
+      "Bash(wc:*)",
+      "Bash(ls:*)"
     ]
-  }
+  },
+  "prefersReducedMotion": false
 }
