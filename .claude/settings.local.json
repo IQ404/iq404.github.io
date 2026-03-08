@@ -12,5 +12,6 @@
       "Bash(ls:*)"
     ]
   },
-  "prefersReducedMotion": false
+  "prefersReducedMotion": false,
+  "outputStyle": "default"
 }
