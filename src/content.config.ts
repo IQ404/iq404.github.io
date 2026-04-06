@@ -20,6 +20,7 @@ const projects = defineCollection({
     description: z.string(),
     date: z.coerce.date(),
     type: z.enum(["software-project", "publication"]),
+    role: z.enum(["first-author", "contributing"]).optional(),
     tags: z.array(z.string()).optional(),
     link: z.string().optional(),
     github: z.string().optional(),

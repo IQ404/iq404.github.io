@@ -8,6 +8,8 @@ const sortedProjects = projects.sort(
 );
 
 const publications = sortedProjects.filter((p) => p.data.type === "publication");
+const firstAuthorPubs = publications.filter((p) => p.data.role === "first-author");
+const contributingPubs = publications.filter((p) => p.data.role === "contributing");
 const softwareProjects = sortedProjects.filter((p) => p.data.type === "software-project");
 
 // Get all unique tags
@@ -33,33 +35,83 @@ const allTags = [...new Set(sortedProjects.flatMap((project) => project.data.tag
       </div>
     )}
 
-    <section class="publications-section">
-      <h2>Publications</h2>
+    <section class="publications-section first-author-section">
+      <h2>First-Author Publications</h2>
       <div class="projects-grid">
-        {publications.map((project) => (
-          <a href={`/projects/${project.id}`} class="project-card" data-tags={JSON.stringify(project.data.tags || [])}>
-            <h3>{project.data.title}</h3>
-            <p>{project.data.description}</p>
-            <div class="project-meta">
-              <time datetime={project.data.date.toISOString()}>
-                {project.data.date.toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "short",
-                })}
-              </time>
-              {project.data.tags && (
-                <div class="tags">
-                  {project.data.tags.map((tag) => (
-                    <span class="tag">{tag}</span>
-                  ))}
-                </div>
-              )}
-            </div>
-          </a>
-        ))}
+        {firstAuthorPubs.map((project) => {
+          const href = project.data.link;
+          const Tag = href ? 'a' : 'div';
+          return (
+            <Tag
+              href={href}
+              class={`project-card ${!href ? 'no-link' : ''}`}
+              data-tags={JSON.stringify(project.data.tags || [])}
+              target={href ? "_blank" : undefined}
+              rel={href ? "noopener noreferrer" : undefined}
+            >
+              <h3>{project.data.title}</h3>
+              <p>{project.data.description}</p>
+              <div class="project-meta">
+                <time datetime={project.data.date.toISOString()}>
+                  {project.data.date.toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "short",
+                  })}
+                </time>
+                {project.data.tags && (
+                  <div class="tags">
+                    {project.data.tags.map((tag) => (
+                      <span class="tag">{tag}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </Tag>
+          );
+        })}
       </div>
-      {publications.length === 0 && (
-        <p class="empty-state">No publications yet. Check back soon!</p>
+      {firstAuthorPubs.length === 0 && (
+        <p class="empty-state">No first-author publications yet. Check back soon!</p>
+      )}
+    </section>
+
+    <section class="publications-section contributing-section">
+      <h2>Contributing Author Publications</h2>
+      <div class="projects-grid">
+        {contributingPubs.map((project) => {
+          const href = project.data.link;
+          const Tag = href ? 'a' : 'div';
+          return (
+            <Tag
+              href={href}
+              class={`project-card ${!href ? 'no-link' : ''}`}
+              data-tags={JSON.stringify(project.data.tags || [])}
+              target={href ? "_blank" : undefined}
+              rel={href ? "noopener noreferrer" : undefined}
+            >
+              <h3>{project.data.title}</h3>
+              <p>{project.data.description}</p>
+              <div class="project-meta">
+                <time datetime={project.data.date.toISOString()}>
+                  {project.data.date.toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "short",
+                  })}
+                </time>
+                {project.data.tags && (
+                  <div class="tags">
+                    {project.data.tags.map((tag) => (
+                      <span class="tag">{tag}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </Tag>
+          );
+        })}
+      </div>
+      {contributingPubs.length === 0 && (
+        <p class="empty-state">No contributing author publications yet. Check back soon!</p>
       )}
     </section>
 
@@ -98,7 +150,7 @@ const allTags = [...new Set(sortedProjects.flatMap((project) => project.data.tag
 <script>
   const tagButtons = document.querySelectorAll('.filter-tag');
   const projectCards = document.querySelectorAll('.project-card');
-  const projectSections = document.querySelectorAll('.publications-section, .software-section');
+  const projectSections = document.querySelectorAll('.first-author-section, .contributing-section, .software-section');
 
   tagButtons.forEach(button => {
     button.addEventListener('click', () => {
@@ -191,12 +243,14 @@ const allTags = [...new Set(sortedProjects.flatMap((project) => project.data.tag
     color: white;
   }
 
-  .publications-section,
+  .first-author-section,
+  .contributing-section,
   .software-section {
     margin-bottom: 3rem;
   }
 
-  .publications-section h2,
+  .first-author-section h2,
+  .contributing-section h2,
   .software-section h2 {
     font-size: 1.25rem;
     color: var(--text-muted);
@@ -222,10 +276,14 @@ const allTags = [...new Set(sortedProjects.flatMap((project) => project.data.tag
     flex-direction: column;
   }
 
-  .project-card:hover {
+  .project-card:not(.no-link):hover {
     border-color: var(--accent);
     transform: translateY(-4px);
     box-shadow: var(--shadow-lg);
+  }
+
+  .project-card.no-link {
+    cursor: default;
   }
 
   .project-card h3 {
