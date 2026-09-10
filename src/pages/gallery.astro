@@ -1,0 +1,128 @@
+---
+import Layout from "../layouts/Layout.astro";
+import herEndlessSummer from "../assets/gallery/her-endless-summer.png";
+---
+
+<Layout title="Gallery - IQ404" description="A collection of images I've created with AI.">
+  <div class="container gallery">
+    <header class="gallery-header">
+      <h1>Gallery</h1>
+      <p>Images I've created with AI.</p>
+    </header>
+
+    <figure class="artwork">
+      <div
+        class="artwork-frame"
+        tabindex="0"
+        role="region"
+        aria-label="Her Endless Summer, original-size artwork"
+      >
+        <img
+          src={herEndlessSummer.src}
+          alt="A painting of a red rose on an easel amid a vast garden of withered roses, with mist, garden arches, and a low sun beneath a cloudy sky."
+          width={herEndlessSummer.width}
+          height={herEndlessSummer.height}
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+          class="artwork-image"
+        />
+      </div>
+
+      <figcaption class="artwork-caption">
+        <div>
+          <h2>Her Endless Summer</h2>
+          <p class="artwork-credit">Generated with ChatGPT Images 2.5.</p>
+        </div>
+      </figcaption>
+    </figure>
+  </div>
+</Layout>
+
+<style>
+  .gallery {
+    max-width: 1746px;
+    padding-top: 0.75rem;
+    padding-bottom: 2rem;
+  }
+
+  .gallery-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .gallery-header p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+  }
+
+  .artwork-frame {
+    display: block;
+    overflow-x: auto;
+    padding: 12px;
+    background: #101113;
+    border: 1px solid #303035;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  }
+
+  .artwork-frame:focus-visible {
+    outline-offset: 6px;
+  }
+
+  .artwork-image {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: none;
+  }
+
+  .artwork-caption {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem 2rem;
+    padding: 1.75rem 0 0;
+  }
+
+  .artwork-caption h2 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    color: #eeeae3;
+  }
+
+  .artwork-credit {
+    margin-top: 0.65rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 640px) {
+    .gallery {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+
+    .gallery-header {
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .artwork-frame {
+      padding: 5px;
+    }
+
+    .artwork-caption {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0.75rem;
+      padding-top: 1.5rem;
+    }
+  }
+</style>
