@@ -5,7 +5,7 @@ import herEndlessSummer from "../assets/gallery/her-endless-summer.png";
 
 <Layout title="Gallery - IQ404" description="A collection of images I've created with AI.">
   <div class="container gallery">
-    <header class="gallery-header">
+    <header class="page-header fade-in">
       <h1>Gallery</h1>
       <p>Images I've created with AI.</p>
     </header>
@@ -39,30 +39,58 @@ import herEndlessSummer from "../assets/gallery/her-endless-summer.png";
   </div>
 </Layout>
 
+<script>
+  const gallery = document.querySelector<HTMLElement>(".gallery");
+  const artwork = document.querySelector<HTMLImageElement>(".artwork-image");
+
+  if (gallery && artwork) {
+    // HTML dimensions describe the PNG; CSS pixels can span multiple screen pixels.
+    const pixelWidth = Number(artwork.getAttribute("width"));
+    const pixelHeight = Number(artwork.getAttribute("height"));
+    let resolutionQuery: MediaQueryList | undefined;
+
+    const updatePixelSize = () => {
+      const ratio = window.devicePixelRatio || 1;
+      gallery.style.setProperty("--artwork-width", `${pixelWidth / ratio}px`);
+      gallery.style.setProperty("--artwork-height", `${pixelHeight / ratio}px`);
+
+      // Re-arm when browser zoom or the monitor's display scaling changes.
+      resolutionQuery?.removeEventListener("change", updatePixelSize);
+      resolutionQuery = window.matchMedia(`(resolution: ${ratio}dppx)`);
+      resolutionQuery.addEventListener("change", updatePixelSize);
+    };
+
+    updatePixelSize();
+    window.addEventListener("resize", updatePixelSize);
+  }
+</script>
+
 <style>
   .gallery {
-    max-width: 1746px;
-    padding-top: 0.75rem;
+    --artwork-width: 1672px;
+    --artwork-height: 941px;
+    --artwork-mat: 12px;
+    max-width: calc(var(--artwork-width) + var(--artwork-mat) + var(--artwork-mat) + 2px + 3rem);
     padding-bottom: 2rem;
   }
 
-  .gallery-header {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 1rem 2rem;
-    margin-bottom: 2.5rem;
+  .page-header {
+    margin-bottom: 2rem;
   }
 
-  .gallery-header p {
-    font-size: 0.95rem;
-    color: var(--text-secondary);
+  .page-header h1 {
+    margin-bottom: 0.5rem;
+  }
+
+  .page-header p {
+    font-size: 1.125rem;
+    color: var(--text-muted);
   }
 
   .artwork-frame {
     display: block;
     overflow-x: auto;
-    padding: 12px;
+    padding: var(--artwork-mat);
     background: #101113;
     border: 1px solid #303035;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
@@ -74,8 +102,8 @@ import herEndlessSummer from "../assets/gallery/her-endless-summer.png";
 
   .artwork-image {
     display: block;
-    width: auto;
-    height: auto;
+    width: var(--artwork-width);
+    height: var(--artwork-height);
     max-width: none;
   }
 
@@ -104,18 +132,8 @@ import herEndlessSummer from "../assets/gallery/her-endless-summer.png";
 
   @media (max-width: 640px) {
     .gallery {
-      padding-top: 0;
+      --artwork-mat: 5px;
       padding-bottom: 0;
-    }
-
-    .gallery-header {
-      flex-direction: column;
-      gap: 0.5rem;
-      margin-bottom: 1.75rem;
-    }
-
-    .artwork-frame {
-      padding: 5px;
     }
 
     .artwork-caption {
