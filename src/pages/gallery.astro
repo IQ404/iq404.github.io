@@ -1,58 +1,85 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import herEndlessSummer from "../assets/gallery/her-endless-summer.png";
+import moonrise from "../assets/gallery/moonrise.png";
+
+const artworks = [
+  {
+    title: "Her Endless Summer",
+    image: herEndlessSummer,
+    alt: "A painting of a red rose on an easel amid a vast garden of withered roses, with mist, garden arches, and a low sun beneath a cloudy sky.",
+  },
+  {
+    title: "Moonrise",
+    image: moonrise,
+    alt: "A giant screen displaying a glowing golden moon rises from a stormy sea beside a rain-soaked coastal road and an illuminated hillside town.",
+  },
+];
+const widestArtwork = Math.max(...artworks.map((artwork) => artwork.image.width));
 ---
 
 <Layout title="Gallery - IQ404" description="A collection of images I've created with AI.">
-  <div class="container gallery">
+  <div class="container gallery" style={`--gallery-width: ${widestArtwork}px;`}>
     <header class="page-header fade-in">
       <h1>Gallery</h1>
       <p>Images I've created with AI.</p>
     </header>
 
-    <figure class="artwork">
-      <div
-        class="artwork-frame"
-        tabindex="0"
-        role="region"
-        aria-label="Her Endless Summer, original-size artwork"
+    {artworks.map((artwork) => (
+      <figure
+        class="artwork"
+        style={`--artwork-width: ${artwork.image.width}px; --artwork-height: ${artwork.image.height}px;`}
       >
-        <img
-          src={herEndlessSummer.src}
-          alt="A painting of a red rose on an easel amid a vast garden of withered roses, with mist, garden arches, and a low sun beneath a cloudy sky."
-          width={herEndlessSummer.width}
-          height={herEndlessSummer.height}
-          loading="eager"
-          fetchpriority="high"
-          decoding="async"
-          class="artwork-image"
-        />
-      </div>
-
-      <figcaption class="artwork-caption">
-        <div>
-          <h2>Her Endless Summer</h2>
-          <p class="artwork-credit">Generated with ChatGPT Images 2.5.</p>
+        <div
+          class="artwork-frame"
+          tabindex="0"
+          role="region"
+          aria-label={`${artwork.title}, original-size artwork`}
+        >
+          <img
+            src={artwork.image.src}
+            alt={artwork.alt}
+            width={artwork.image.width}
+            height={artwork.image.height}
+            loading="eager"
+            fetchpriority={artwork.image === herEndlessSummer ? "high" : "auto"}
+            decoding="async"
+            class="artwork-image"
+          />
         </div>
-      </figcaption>
-    </figure>
+
+        <figcaption class="artwork-caption">
+          <div>
+            <h2>{artwork.title}</h2>
+            <p class="artwork-credit">Generated with ChatGPT Images 2.5.</p>
+          </div>
+        </figcaption>
+      </figure>
+    ))}
   </div>
 </Layout>
 
 <script>
   const gallery = document.querySelector<HTMLElement>(".gallery");
-  const artwork = document.querySelector<HTMLImageElement>(".artwork-image");
+  const artworkImages = Array.from(document.querySelectorAll<HTMLImageElement>(".artwork-image"))
+    .map((image) => ({
+      figure: image.closest<HTMLElement>(".artwork"),
+      pixelWidth: Number(image.getAttribute("width")),
+      pixelHeight: Number(image.getAttribute("height")),
+    }));
 
-  if (gallery && artwork) {
+  if (gallery && artworkImages.length > 0) {
     // HTML dimensions describe the PNG; CSS pixels can span multiple screen pixels.
-    const pixelWidth = Number(artwork.getAttribute("width"));
-    const pixelHeight = Number(artwork.getAttribute("height"));
+    const widestImage = Math.max(...artworkImages.map((artwork) => artwork.pixelWidth));
     let resolutionQuery: MediaQueryList | undefined;
 
     const updatePixelSize = () => {
       const ratio = window.devicePixelRatio || 1;
-      gallery.style.setProperty("--artwork-width", `${pixelWidth / ratio}px`);
-      gallery.style.setProperty("--artwork-height", `${pixelHeight / ratio}px`);
+      gallery.style.setProperty("--gallery-width", `${widestImage / ratio}px`);
+      artworkImages.forEach((artwork) => {
+        artwork.figure?.style.setProperty("--artwork-width", `${artwork.pixelWidth / ratio}px`);
+        artwork.figure?.style.setProperty("--artwork-height", `${artwork.pixelHeight / ratio}px`);
+      });
 
       // Re-arm when browser zoom or the monitor's display scaling changes.
       resolutionQuery?.removeEventListener("change", updatePixelSize);
@@ -67,10 +94,8 @@ import herEndlessSummer from "../assets/gallery/her-endless-summer.png";
 
 <style>
   .gallery {
-    --artwork-width: 1672px;
-    --artwork-height: 941px;
     --artwork-mat: 12px;
-    max-width: calc(var(--artwork-width) + var(--artwork-mat) + var(--artwork-mat) + 2px + 3rem);
+    max-width: calc(var(--gallery-width) + var(--artwork-mat) + var(--artwork-mat) + 2px + 3rem);
     padding-bottom: 2rem;
   }
 
@@ -85,6 +110,15 @@ import herEndlessSummer from "../assets/gallery/her-endless-summer.png";
   .page-header p {
     font-size: 1.125rem;
     color: var(--text-muted);
+  }
+
+  .artwork {
+    width: calc(var(--artwork-width) + var(--artwork-mat) + var(--artwork-mat) + 2px);
+    max-width: 100%;
+  }
+
+  .artwork + .artwork {
+    margin-top: 4rem;
   }
 
   .artwork-frame {
