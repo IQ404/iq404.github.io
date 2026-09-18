@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import herEndlessSummer from "../assets/gallery/her-endless-summer.png";
 import moonrise from "../assets/gallery/moonrise.png";
+import hideAndSeek from "../assets/gallery/hide-and-seek.png";
 
 const artworks = [
   {
@@ -13,6 +14,11 @@ const artworks = [
     title: "Moonrise",
     image: moonrise,
     alt: "A giant screen displaying a glowing golden moon rises from a stormy sea beside a rain-soaked coastal road and an illuminated hillside town.",
+  },
+  {
+    title: "Hide and Seek",
+    image: hideAndSeek,
+    alt: "A sketch-style illustration of a girl covering her eyes and counting while a boy puts on an old man's disguise, with clothes and a walking stick scattered beside him.",
   },
 ];
 const widestArtwork = Math.max(...artworks.map((artwork) => artwork.image.width));
