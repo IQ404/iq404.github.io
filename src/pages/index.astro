@@ -36,6 +36,18 @@ import Layout from "../layouts/Layout.astro";
           </div>
         </div>
 
+        <div class="recent-activities">
+          <h2>Recent Activities</h2>
+          <ul class="activities-list">
+            <li>
+              I will serve as a Program Committee (PC) member for <a href="https://stala-workshop.github.io/" target="_blank" rel="noopener">STALA 2027 (Workshop on Security Testing and Assurance for LLMs and Agents)</a>, co-located with NDSS 2027.
+            </li>
+            <li>
+              I gave a talk titled &ldquo;Tracing the Light of Thought: A Rendering Perspective on Test-Time Reasoning&rdquo; at the Scalable Research Seminar in the School of Computing at Newcastle University on 5 June 2026.
+            </li>
+          </ul>
+        </div>
+
         <div class="education">
           <h2>Education</h2>
           <ul class="education-list">
@@ -167,9 +179,29 @@ import Layout from "../layouts/Layout.astro";
     margin-bottom: 0;
   }
 
+  .recent-activities {
+    margin-bottom: 2rem;
+  }
+
+  .recent-activities h2,
   .education h2 {
     margin-bottom: 1rem;
     color: var(--text-primary);
+  }
+
+  .activities-list {
+    padding-left: 1.25rem;
+    list-style-type: disc;
+    color: var(--text-secondary);
+  }
+
+  .activities-list li {
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+  }
+
+  .activities-list li:last-child {
+    margin-bottom: 0;
   }
 
   .education-list {
@@ -192,6 +224,7 @@ import Layout from "../layouts/Layout.astro";
     color: var(--accent);
   }
 
+  .activities-list a,
   .education-list a {
     color: var(--accent);
     text-decoration: none;
@@ -199,6 +232,7 @@ import Layout from "../layouts/Layout.astro";
     transition: border-color var(--transition);
   }
 
+  .activities-list a:hover,
   .education-list a:hover {
     border-bottom-color: var(--accent);
   }
