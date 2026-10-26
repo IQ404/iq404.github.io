@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import tennisPhoto from "../assets/tennis/xiaoyang-and-rafa.jpg";
 ---
 
 <Layout title="Tennis - IQ404" description="My love of playing and watching tennis.">
@@ -19,11 +20,106 @@ import Layout from "../layouts/Layout.astro";
         P.S. The EZONE 100 is the best tennis racket ever.
       </p>
     </div>
+
+    <figure
+      class="tennis-photo"
+      style={`--photo-width: ${tennisPhoto.width}px; --photo-height: ${tennisPhoto.height}px;`}
+    >
+      <div
+        class="tennis-photo-frame"
+        tabindex="0"
+        role="region"
+        aria-label="Xiaoyang and Rafa, original-size photo"
+      >
+        <img
+          src={tennisPhoto.src}
+          alt="Xiaoyang and Rafa standing together beside a tennis court."
+          width={tennisPhoto.width}
+          height={tennisPhoto.height}
+          loading="eager"
+          decoding="async"
+          class="tennis-photo-image"
+        />
+      </div>
+      <figcaption class="tennis-photo-caption">The good old days</figcaption>
+    </figure>
   </div>
 </Layout>
+
+<script>
+  const photo = document.querySelector<HTMLElement>(".tennis-photo");
+  const photoImage = document.querySelector<HTMLImageElement>(".tennis-photo-image");
+
+  if (photo && photoImage) {
+    const pixelWidth = Number(photoImage.getAttribute("width"));
+    const pixelHeight = Number(photoImage.getAttribute("height"));
+    let resolutionQuery: MediaQueryList | undefined;
+
+    const updatePixelSize = () => {
+      // Match Gallery: one image pixel per screen pixel, including display scaling.
+      const ratio = window.devicePixelRatio || 1;
+      photo.style.setProperty("--photo-width", `${pixelWidth / ratio}px`);
+      photo.style.setProperty("--photo-height", `${pixelHeight / ratio}px`);
+
+      resolutionQuery?.removeEventListener("change", updatePixelSize);
+      resolutionQuery = window.matchMedia(`(resolution: ${ratio}dppx)`);
+      resolutionQuery.addEventListener("change", updatePixelSize);
+    };
+
+    updatePixelSize();
+    window.addEventListener("resize", updatePixelSize);
+  }
+</script>
 
 <style>
   .page-header {
     margin-bottom: 2rem;
+  }
+
+  .tennis-photo {
+    --photo-mat: 12px;
+    width: calc(var(--photo-width) + var(--photo-mat) + var(--photo-mat) + 2px);
+    max-width: 100%;
+    margin-top: 2rem;
+  }
+
+  .tennis-photo-frame {
+    display: block;
+    overflow-x: auto;
+    padding: var(--photo-mat);
+    background: #101113;
+    border: 1px solid #303035;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  }
+
+  .tennis-photo-frame:focus-visible {
+    outline-offset: 6px;
+  }
+
+  .tennis-photo-image {
+    display: block;
+    width: var(--photo-width);
+    height: var(--photo-height);
+    max-width: none;
+  }
+
+  .tennis-photo-caption {
+    padding-top: 1.75rem;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    color: #eeeae3;
+  }
+
+  @media (max-width: 640px) {
+    .tennis-photo {
+      --photo-mat: 5px;
+    }
+
+    .tennis-photo-caption {
+      padding-top: 1.5rem;
+    }
   }
 </style>
