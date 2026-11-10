@@ -9,16 +9,19 @@ const artworks = [
     title: "Her Endless Summer",
     image: herEndlessSummer,
     alt: "A painting of a red rose on an easel amid a vast garden of withered roses, with mist, garden arches, and a low sun beneath a cloudy sky.",
+    credit: "This scene has always been in my mind. The idea is my own; I described only the scene and atmosphere, without explicitly specifying an art style.",
   },
   {
     title: "Moonrise",
     image: moonrise,
     alt: "A giant screen displaying a glowing golden moon rises from a stormy sea beside a rain-soaked coastal road and an illuminated hillside town.",
+    credit: "Although I don't think the final image resembles Makoto Shinkai's art style, I did ask GPT to emulate it, so I acknowledge his work as a stylistic reference. The idea is my own.",
   },
   {
     title: "Hide and Seek",
     image: hideAndSeek,
     alt: "A sketch-style illustration of a girl covering her eyes and counting while a boy puts on an old man's disguise, with clothes and a walking stick scattered beside him.",
+    credit: "I asked GPT to use the art style of the video game OMORI as a reference, so I credit OMOCAT as the stylistic inspiration. The idea is my own.",
   },
 ];
 const widestArtwork = Math.max(...artworks.map((artwork) => artwork.image.width));
@@ -58,6 +61,7 @@ const widestArtwork = Math.max(...artworks.map((artwork) => artwork.image.width)
           <div>
             <h2>{artwork.title}</h2>
             <p class="artwork-credit">Generated with ChatGPT Images 2.5.</p>
+            <p class="artwork-credit">{artwork.credit}</p>
           </div>
         </figcaption>
       </figure>
