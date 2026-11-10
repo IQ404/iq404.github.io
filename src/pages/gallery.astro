@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import herEndlessSummer from "../assets/gallery/her-endless-summer.png";
 import moonrise from "../assets/gallery/moonrise.png";
 import hideAndSeek from "../assets/gallery/hide-and-seek.png";
+import toukoInVernazza from "../assets/gallery/touko-in-vernazza.png";
 
 const artworks = [
   {
@@ -22,6 +23,12 @@ const artworks = [
     image: hideAndSeek,
     alt: "A sketch-style illustration of a girl covering her eyes and counting while a boy puts on an old man's disguise, with clothes and a walking stick scattered beside him.",
     credit: "I asked GPT to use the art style of the video game OMORI as a reference, so I credit OMOCAT as the stylistic inspiration. The idea is my own.",
+  },
+  {
+    title: "Touko in Vernazza",
+    image: toukoInVernazza,
+    alt: "A pencil-style portrait of Touko in a dark dress, looking back over her shoulder on a sunlit terrace above an Italian coastal town and the sea.",
+    credit: "This is my take on a fan-made \"what-if\" route for the visual novel Kara no Shojo: nothing bad happens, and Touko goes to Italy to study painting. I asked GPT to use the illustrations in The Shell Part III: Paradiso as a style reference, so I credit Miki Sugina / Innocent Grey for the stylistic inspiration.",
   },
 ];
 const widestArtwork = Math.max(...artworks.map((artwork) => artwork.image.width));
